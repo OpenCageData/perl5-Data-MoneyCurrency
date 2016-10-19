@@ -17,7 +17,7 @@ binmode Test::More->builder->todo_output, ":encoding(UTF-8)";
 local $Data::Dumper::Sortkeys = 1;
 
 {
-    my $got = get_currency('usd');
+    my $got = get_currency(currency => 'usd');
     my $expected = {
         'alternate_symbols' => ['US$'],
         'decimal_mark' => '.',
@@ -34,12 +34,16 @@ local $Data::Dumper::Sortkeys = 1;
         'symbol_first' => 1,
         'thousands_separator' => ',',
     };
-    is_deeply($got, $expected, "usd")
+    is_deeply($got, $expected, "get_currency usd")
+        or diag(Data::Dumper->Dump([$got, $expected], ['got', 'expected']));
+
+    $got = get_currency(country => 'us');
+    is_deeply($got, $expected, "get_currency us")
         or diag(Data::Dumper->Dump([$got, $expected], ['got', 'expected']));
 }
 
 {
-    my $got = get_currency('azn');
+    my $got = get_currency(currency => 'azn');
     my $expected = {
         'alternate_symbols' => ['m', 'man'],
         'decimal_mark' => '.',
@@ -58,14 +62,22 @@ local $Data::Dumper::Sortkeys = 1;
         'symbol_first' => 1,
         'thousands_separator' => ',',
     };
-
-    is_deeply($got, $expected, "get_currency('azn'), which has non-ascii characters")
+    is_deeply($got, $expected, "get_currency 'azn' which has non-ascii characters")
+        or diag(Data::Dumper->Dump([$got, $expected], ['got', 'expected']));
+    
+    $got = get_currency(country => 'az');
+    is_deeply($got, $expected, "get_currency 'az' which has non-ascii characters")
         or diag(Data::Dumper->Dump([$got, $expected], ['got', 'expected']));
 }
 
 {
-    my $got = get_currency("blablabla");
-    is($got, undef, "get_currency('blablabla') returns undef");
+    my $got = get_currency(currency => "blablabla");
+    is($got, undef, "get_currency(currency => 'blablabla') returns undef");
+}
+
+{
+    my $got = get_currency(country => "blablabla");
+    is($got, undef, "get_currency(country => 'blablabla') returns undef");
 }
 
 throws_ok {
@@ -73,7 +85,10 @@ throws_ok {
 } qr/no arguments/, "get_currency() throws exception";
 
 throws_ok {
-    get_currency("one", "two");
-} qr/more than one argument/, "get_currency('one', 'two') throws exception";
+    get_currency(country => 'us', currency => 'eur');
+} qr/both/, "get_currency with both country and currency throws exception";
 
+throws_ok {
+    get_currency(currency => 'eur', foo => 'bar');
+} qr/only accepts/, "get_currency doesn't accept foo";
 done_testing();
