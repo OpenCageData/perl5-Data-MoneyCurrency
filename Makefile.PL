@@ -2,6 +2,7 @@ use 5.006;
 use strict;
 use warnings;
 use ExtUtils::MakeMaker;
+use File::ShareDir::Install;
 use File::Basename qw(dirname);
 use File::Spec;
 
@@ -20,6 +21,8 @@ for my $file (@required_files) {
     }
 }
 
+install_share dist => File::Spec->catfile("ruby-money", "config");
+
 WriteMakefile(
     NAME             => 'Data::MoneyCurrency',
     AUTHOR           => q{David D Lowe <daviddlowe.flimm@gmail.com>},
@@ -30,14 +33,17 @@ WriteMakefile(
     MIN_PERL_VERSION => 5.006,
     CONFIGURE_REQUIRES => {
         'ExtUtils::MakeMaker' => 0,
+        'File::ShareDir::Install' => 0,
     },
     BUILD_REQUIRES => {
         'Test::More' => 0,
     },
     PREREQ_PM => {
-        #'ABC'              => 1.6,
-        #'Foo::Bar::Module' => 5.0401,
+        'File::ShareDir' => 0,
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean => { FILES => 'Data-MoneyCurrency-*' },
 );
+
+package MY;
+use File::ShareDir::Install qw(postamble);

@@ -4,6 +4,8 @@ use 5.006;
 use strict;
 use warnings;
 
+use File::ShareDir qw(dist_file);
+
 =head1 NAME
 
 Data::MoneyCurrency - The great new Data::MoneyCurrency!
@@ -38,6 +40,8 @@ if you don't export anything, such as for a purely object-oriented module.
 =head2 function1
 
 =cut
+
+my $currency_iso_path = dist_file('Data-MoneyCurrency', 'currency_iso.json');
 
 sub function1 {
 }
