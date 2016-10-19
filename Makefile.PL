@@ -8,7 +8,7 @@ WriteMakefile(
     AUTHOR           => q{David D Lowe <daviddlowe.flimm@gmail.com>},
     VERSION_FROM     => 'lib/Data/MoneyCurrency.pm',
     ABSTRACT_FROM    => 'lib/Data/MoneyCurrency.pm',
-    LICENSE          => 'artistic_2',
+    LICENSE          => 'mit',
     PL_FILES         => {},
     MIN_PERL_VERSION => 5.006,
     CONFIGURE_REQUIRES => {
