@@ -16,3 +16,4 @@ ruby-money/config/currency_iso.json
 ruby-money/config/currency_non_iso.json
 ruby-money/LICENSE
 ruby-money/README.md
+.editorconfig
