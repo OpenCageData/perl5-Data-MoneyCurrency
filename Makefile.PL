@@ -2,6 +2,23 @@ use 5.006;
 use strict;
 use warnings;
 use ExtUtils::MakeMaker;
+use File::Basename qw(dirname);
+use File::Spec;
+
+my $dirname = dirname(__FILE__);
+my @required_files = (
+    File::Spec->catfile("ruby-money", "config", "currency_backwards_compatible.json"),
+    File::Spec->catfile("ruby-money", "config", "currency_iso.json"),
+    File::Spec->catfile("ruby-money", "config", "currency_non_iso.json"),
+    File::Spec->catfile("ruby-money", "LICENSE"),
+    File::Spec->catfile("ruby-money", "README.md"),
+);
+for my $file (@required_files) {
+    my $path = File::Spec->catfile($dirname, $file);
+    if (! -e $path) {
+        die "Expected file '$path' to exist, have you checked out the submodule?";
+    }
+}
 
 WriteMakefile(
     NAME             => 'Data::MoneyCurrency',
