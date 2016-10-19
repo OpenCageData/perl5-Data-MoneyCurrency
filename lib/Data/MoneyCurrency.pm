@@ -3,12 +3,20 @@ package Data::MoneyCurrency;
 use 5.006;
 use strict;
 use warnings;
+use utf8;
+
+require Exporter;
+our @ISA = qw(Exporter);
+our @EXPORT_OK = qw(get_currency);
 
 use File::ShareDir qw(dist_file);
+use JSON qw(decode_json);
+use Types::Serialiser;
+use Carp;
 
 =head1 NAME
 
-Data::MoneyCurrency - The great new Data::MoneyCurrency!
+Data::MoneyCurrency - Get currency information for different currencies
 
 =head1 VERSION
 
@@ -21,36 +29,62 @@ our $VERSION = '0.01';
 
 =head1 SYNOPSIS
 
-Quick summary of what the module does.
+Get currency information for different currencies.
 
-Perhaps a little code snippet.
+    use Data::MoneyCurrency qw(get_currency);
 
-    use Data::MoneyCurrency;
-
-    my $foo = Data::MoneyCurrency->new();
-    ...
+    my $currency = get_currency('usd');
+    # $currency = {
+    #    # ...
+    # }
 
 =head1 EXPORT
 
-A list of functions that can be exported.  You can delete this section
-if you don't export anything, such as for a purely object-oriented module.
-
 =head1 SUBROUTINES/METHODS
 
-=head2 function1
+=head2 get_currency
+
+Takes one argument, and returns a reference to hash containing information
+about that currency (character strings), or undef if the currency is not
+recognised.
+
+    my $currency = get_currency('usd');
+    # $currency = {
+    #    # ...
+    # }
 
 =cut
 
-my $currency_iso_path = dist_file('Data-MoneyCurrency', 'currency_iso.json');
+my $rh_currency_iso; # contains character strings
 
-sub function1 {
-}
+sub get_currency {
+    croak "get_currency received no arguments" if @_ == 0;
+    croak "get_currency received more than one argument" if @_ > 1;
+    my $currency_abbreviation = lc($_[0]);
 
-=head2 function2
+    if (! defined($rh_currency_iso)) {
+        my $path = dist_file('Data-MoneyCurrency', 'currency_iso.json');
+        open my $fh, "<:raw", $path or die $!;
+        my $octet_contents = join "", readline($fh);
+        close $fh or die $!;
+        $rh_currency_iso = decode_json($octet_contents);
+    }
 
-=cut
+    if (! $rh_currency_iso->{$currency_abbreviation}) {
+        return;
+    }
 
-sub function2 {
+    # Shallow copy everytime deliberately, so that the caller can mutate the
+    # return value if wished, without affecting rh_currency_iso
+    my $rv = {};
+    for my $key (keys %{ $rh_currency_iso->{$currency_abbreviation} }) {
+        my $value = $rh_currency_iso->{$currency_abbreviation}{$key};
+        if (JSON::is_bool($value) or Types::Serialiser::is_bool($value)) {
+            $value = $value ? 1 : 0;
+        }
+        $rv->{$key} = $value;
+    }
+    return $rv;
 }
 
 =head1 AUTHOR
@@ -63,15 +97,11 @@ Please report any bugs or feature requests to C<bug-data-moneycurrency at rt.cpa
 the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Data-MoneyCurrency>.  I will be notified, and then you'll
 automatically be notified of progress on your bug as I make changes.
 
-
-
-
 =head1 SUPPORT
 
 You can find documentation for this module with the perldoc command.
 
     perldoc Data::MoneyCurrency
-
 
 You can also look for information at:
 

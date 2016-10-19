@@ -37,9 +37,12 @@ WriteMakefile(
     },
     BUILD_REQUIRES => {
         'Test::More' => 0,
+        'Test::Exception' => 0,
     },
     PREREQ_PM => {
         'File::ShareDir' => 0,
+        'JSON' => 0,
+        'Types::Serialiser' => 0,
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean => { FILES => 'Data-MoneyCurrency-*' },
