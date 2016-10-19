@@ -1,0 +1,4 @@
+[submodule "ruby-money"]
+	path = ruby-money
+	url = https://github.com/RubyMoney/money.git
+	branch = master
