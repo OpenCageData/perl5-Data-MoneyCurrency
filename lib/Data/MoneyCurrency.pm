@@ -7,7 +7,7 @@ use utf8;
 
 require Exporter;
 our @ISA = qw(Exporter);
-our @EXPORT_OK = qw(get_currency);
+our @EXPORT_OK = qw(get_currency get_currencies_for_country);
 
 use File::ShareDir qw(dist_file);
 use JSON qw(decode_json);
