@@ -31,6 +31,20 @@ WriteMakefile(
     LICENSE          => 'mit',
     PL_FILES         => {},
     MIN_PERL_VERSION => 5.006,
+    META_MERGE => {
+        'meta-spec' => { version => 2 },
+        homepage => 'https://github.com/Flimm/perl5-Data-MoneyCurrency',
+        bugtracker => {
+            web => 'https://github.com/Flimm/perl5-Data-MoneyCurrency/issues',
+        },
+        resources => {
+            repository => {
+                type => 'git',
+                url => 'https://github.com/Flimm/perl5-Data-MoneyCurrency.git',
+                web => 'https://github.com/Flimm/perl5-Data-MoneyCurrency',
+            },
+        },
+    },
     CONFIGURE_REQUIRES => {
         'ExtUtils::MakeMaker' => 0,
         'File::ShareDir::Install' => 0,
