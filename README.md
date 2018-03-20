@@ -1,15 +1,14 @@
+[![Build Status](https://travis-ci.org/OpenCageData/perl5-Data-MoneyCurrency.svg?branch=master)](https://travis-ci.org/OpenCageData/perl5-Data-MoneyCurrency)
+
 Data-MoneyCurrency
 
 Get currency information for different currencies.
 
 INSTALLATION
 
-To install this module, run the following commands:
+To install this module, use cpanm
 
-	perl Makefile.PL
-	make
-	make test
-	make install
+	cpanm Data::MoneyCurrency
 
 SUPPORT AND DOCUMENTATION
 
