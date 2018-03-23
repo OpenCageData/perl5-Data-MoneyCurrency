@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/OpenCageData/perl5-Data-MoneyCurrency.svg?branch=master)](https://travis-ci.org/OpenCageData/perl5-Data-MoneyCurrency)
+[![CPAN](https://img.shields.io/cpan/v/Data-MoneyCurrency.svg?style=flat-square)](https://metacpan.org/pod/Data::MoneyCurrency)
 
 Data-MoneyCurrency
 
