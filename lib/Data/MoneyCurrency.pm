@@ -1,3 +1,4 @@
+# ABSTRACT: Get information for different currencies
 package Data::MoneyCurrency;
 
 use strict;
@@ -17,10 +18,6 @@ use Data::Dumper;
 my $rh_currency_for_country = {};
 
 =encoding utf8
-
-=head1 NAME
-
-Data::MoneyCurrency - Get currency information for different currencies
 
 =head1 VERSION
 
