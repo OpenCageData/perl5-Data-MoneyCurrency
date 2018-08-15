@@ -8,6 +8,9 @@ perl:
   - '5.18'
 env: PERL_CPANM_OPT="--notest --force --skip-satisfied"
 before_install:
+  - git submodule init
+  - git submodule update
+  - git submodule foreach git pull origin master
   # submodule should be requested automatically, see
   # https://docs.travis-ci.com/user/common-build-problems/#Git-Submodules-are-not-updated-correctly
   #
