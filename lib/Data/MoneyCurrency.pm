@@ -340,10 +340,6 @@ sub get_currencies_for_country {
     return;
 }
 
-=head1 AUTHOR
-
-David D Lowe, C<< <daviddlowe.flimm at gmail.com> >>
-
 =head1 BUGS
 
 
@@ -369,6 +365,7 @@ L<https://metacpan.org/pod/Data::MoneyCurrency>
 
 =head1 ACKNOWLEDGEMENTS
 
+Original version by David D Lowe (FLIMM)
 
 =head1 LICENSE AND COPYRIGHT
 
