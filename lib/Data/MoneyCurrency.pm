@@ -10,10 +10,11 @@ our @ISA = qw(Exporter);
 our @EXPORT_OK = qw(get_currency get_currencies_for_country);
 
 use File::ShareDir qw(dist_file);
-use JSON qw(decode_json);
+use Cpanel::JSON::XS;
 use Types::Serialiser;
 use Carp;
 use Data::Dumper;
+$Data::Dumper::Sortkeys = 1;
 
 my $rh_currency_for_country = {};
 
@@ -21,11 +22,11 @@ my $rh_currency_for_country = {};
 
 =head1 VERSION
 
-Version 0.07
+Version 0.08
 
 =cut
 
-our $VERSION = '0.07';
+our $VERSION = '0.08';
 
 =head1 SYNOPSIS
 
@@ -112,7 +113,8 @@ sub get_currency {
     my $rv = {};
     for my $key (keys %{ $rh_currency_iso->{$currency_abbreviation} }) {
         my $value = $rh_currency_iso->{$currency_abbreviation}{$key};
-        if (JSON::is_bool($value) or Types::Serialiser::is_bool($value)) {
+        if (Cpanel::JSON::XS::is_bool($value) 
+            or Types::Serialiser::is_bool($value)) {
             $value = $value ? 1 : 0;
         }
         $rv->{$key} = $value;
