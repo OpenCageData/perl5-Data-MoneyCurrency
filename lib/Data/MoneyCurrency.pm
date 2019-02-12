@@ -43,7 +43,7 @@ Get currency information for different currencies.
     #   # ...
     # }
 
-This uses some data found in in the Ruby library
+This uses some data found in the Ruby library
 L<money|https://github.com/RubyMoney/money/tree/master/config>, but it has no
 dependency on it, the relevant data files are already included.
 
