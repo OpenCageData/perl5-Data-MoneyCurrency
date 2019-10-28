@@ -24,14 +24,16 @@ before_install:
   - "export tmpbuild=`mktemp --directory`"
   - "dzil build --in $tmpbuild"
   # for reporting to coveralls.io
-  - "cpanm --quiet --notest Devel::Cover::Report::Coveralls"    
+  # but unfortuantely the Devel::Cover tests seem to fail due to being unable
+  # to find the submodule files, so turning off for now
+  # - "cpanm --quiet --notest Devel::Cover::Report::Coveralls"    
 install: "dzil listdeps | xargs cpanm"
 script:
   - "dzil test --author"
-  - PERL5OPT=-MDevel::Cover=-coverage,statement,branch,condition,path,subroutine prove -lrsv t  
-  - cover
-after_success:
-  - cover -report coveralls 
+  # - PERL5OPT=-MDevel::Cover=-coverage,statement,branch,condition,path,subroutine prove -lrsv t  
+  # - cover
+  # after_success:
+  # - cover -report coveralls 
 notifications:
   email:
     on_failure: always
