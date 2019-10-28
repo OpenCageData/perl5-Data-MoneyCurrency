@@ -369,11 +369,6 @@ L<https://metacpan.org/pod/Data::MoneyCurrency>
 
 Original version by David D Lowe (FLIMM)
 
-=head1 LICENSE AND COPYRIGHT
-
-This is licensed under the MIT license, and includes code from the
-RubyMoney/Money module, which is also licensed under the MIT license.
-
 =cut
 
 1; # End of Data::MoneyCurrency
