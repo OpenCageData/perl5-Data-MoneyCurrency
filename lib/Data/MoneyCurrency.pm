@@ -330,8 +330,8 @@ reference to an array of strings that are currency codes.
 =cut
 
 sub get_currencies_for_country {
-    croak "get_currency received no arguments" if @_ == 0;
-    croak "get_currency received more than one argument" if @_ > 1;
+    croak "get_currencies_for_country received no arguments" if @_ == 0;
+    croak "get_currencies_for_country received more than one argument" if @_ > 1;
     my $country = lc($_[0]);
 
     # Return shallow copy to avoid mutating $rh_currencies_for_country
