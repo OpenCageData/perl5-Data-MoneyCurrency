@@ -346,7 +346,7 @@ sub get_currencies_for_country {
 
 
 Please report any bugs or feature requests through the web interface at
-L<https://github.com/Flimm/perl5-Data-MoneyCurrency/issues>.
+L<https://github.com/OpenCageData/perl5-Data-MoneyCurrency>.
 
 =head1 SUPPORT
 

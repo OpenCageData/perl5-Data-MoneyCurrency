@@ -21,7 +21,7 @@ perldoc command.
 You can also look for information at:
 
     GitHub issues (report bugs here)
-        https://github.com/Flimm/perl5-Data-MoneyCurrency/issues
+        https://github.com/OpenCageData/perl5-Data-MoneyCurrency
 
     Meta CPAN
         https://metacpan.org/pod/Data::MoneyCurrency
