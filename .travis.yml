@@ -1,40 +1,26 @@
----
-language: 'perl'
+language: perl
 perl:
-  - '5.30'
-  - '5.28'
-  - '5.26'
-  - '5.24'
+- '5.30'
+- '5.28'
+- '5.26'
+- '5.24'
 env: PERL_CPANM_OPT="--notest --force --skip-satisfied"
 before_install:
-  - git submodule init
-  - git submodule update
-  - git submodule foreach git pull origin master
-  # submodule should be requested automatically, see
-  # https://docs.travis-ci.com/user/common-build-problems/#Git-Submodules-are-not-updated-correctly
-  #
-  # get the perl modules we need
-  #
-  # install dist development dependencies
-  - "cpanm Dist::Zilla"
-  - "dzil authordeps | xargs cpanm"
-  - "export tmpbuild=`mktemp --directory`"
-  - "dzil build --in $tmpbuild"
-  # for reporting to coveralls.io
-  # but unfortuantely the Devel::Cover tests seem to fail due to being unable
-  # to find the submodule files, so turning off for now
-  # - "cpanm --quiet --notest Devel::Cover::Report::Coveralls"    
-install: "dzil listdeps | xargs cpanm"
+- git submodule init
+- git submodule update
+- git submodule foreach git pull origin master
+- cpanm Dist::Zilla
+- dzil authordeps | xargs cpanm
+- export tmpbuild=`mktemp --directory`
+- dzil build --in $tmpbuild
+install: dzil listdeps | xargs cpanm
 script:
-  - "dzil test --author"
-  # - PERL5OPT=-MDevel::Cover=-coverage,statement,branch,condition,path,subroutine prove -lrsv t  
-  # - cover
-  # after_success:
-  # - cover -report coveralls 
+- dzil test --author
 notifications:
   email:
     on_failure: always
     on_success: change
     recipients:
-      - edf@opencagedata.com
-      
+    - edf@opencagedata.com
+  slack:
+    secure: Xbrq/xGV4oBQMSuUB9hxHLzCf6fxYatxS+RXQa1oslZVgemn66Bs/JzdBtMO/LHU3AxfoA5FH8r2wPNSDhKwn8yCAMzJj6oFoW/ic/+8V70C+6AWWGJwZIBCFmaqwK5gvr5TmDyECp38YOphzD7Zgl0xlZhw72dnCdcvemc/SjaU2ynzCWOvc8SV/E6nVgarNQb4HJp4vPkzbAlkDdLng9vxjkn/xAi6f/AkDSigjC8BSBM1caKdnrZAgN4miaJR0Zqk3L9HEWZRhetRTK0uh4YwlbPIBh9XVydmMGiIDjITQDc4UJF84sg/aSkuF+5NnxJ4uhP1NWMGjDr+FjStgFoyShTBrhuZ/QzCOTH6LozYIxNUP9gg5p2gZxsFn82dFmmEvTRhyINvOnCshz6metPcLWaplaEGeVoL/c1s6SS803hQqluLwrAKhzmx7seD398Mj5B/ZYwue6Ff8EFRauSxKmoI5tJZoXPk5PtCjo0KoHa76Y3Hut6WpGwHy0GA1slTp8oxg0tUmW1ReCoobF9ky8LwdQRrsiJd+sBU3JLfw6E8Lr+CHGUSrtc7OgNWLezWLyob5+Ut2UlbUnS9W1LyeYAn7kPmIw1a237yzQLKDJ0rKcKlAAjqDcrZYL6M0/IBUYfMM8m7uFn6BtoHUiuYMdrAvbD48VIjTSrq/Z8=
