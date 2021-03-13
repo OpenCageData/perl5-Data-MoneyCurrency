@@ -20,14 +20,6 @@ my $rh_currency_for_country = {};
 
 =encoding utf8
 
-=head1 VERSION
-
-Version 0.12
-
-=cut
-
-our $VERSION = '0.12';
-
 =head1 SYNOPSIS
 
 Get currency information for different currencies.
