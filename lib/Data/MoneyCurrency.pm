@@ -48,8 +48,8 @@ dependency on it, the relevant data files are already included.
 Takes hash of arguments, and returns a reference to hash containing information
 about that currency (character strings), or undef if the currency or the
 country is not recognised. Pass either 'currency' or 'country' as the only key
-of the hash of arguments, with the currency code or the ISO 3166-2 country code
-respectively.
+of the hash of arguments, with the currency code or the ISO 3166-2 alpha-2
+country code respectively.
 
     my $currency = get_currency(currency => 'usd');
     # $currency = {
@@ -368,7 +368,7 @@ my $rh_currencies_for_country = {
 
 =head2 get_currencies_for_country
 
-Takes one argument, a country code in ISO 3166-1 format, and returns a
+Takes one argument, a country code in ISO 3166-1 alpha-2 format, and returns a
 reference to an array of strings that are currency codes.
 
     my $rv = get_currencies_for_country('fr');
