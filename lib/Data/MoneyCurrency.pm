@@ -35,7 +35,7 @@ Get currency information for different currencies.
     # }
 
 This uses some data found in the Ruby library
-L<money|https://github.com/RubyMoney/money/tree/master/config>, but it has no
+L<money|https://github.com/RubyMoney/money/tree/main/config>, but it has no
 dependency on it, the relevant data files are already included.
 
 =head1 EXPORT
