@@ -9,7 +9,6 @@ require Exporter;
 our @ISA       = qw(Exporter);
 our @EXPORT_OK = qw(get_currency get_currencies_for_country);
 
-use File::ShareDir qw(dist_file);
 use Cpanel::JSON::XS;
 use Types::Serialiser;
 use Carp;
@@ -88,7 +87,7 @@ sub get_currency {
     }
 
     if (!defined($rh_currency_iso)) {
-        my $path = dist_file('Data-MoneyCurrency', 'currency_iso.json');
+        my $path = '../../ruby-money/config/currency_iso.json';
         open my $fh, "<:raw", $path or die $!;
         my $octet_contents = join "", readline($fh);
         close $fh or die $!;
