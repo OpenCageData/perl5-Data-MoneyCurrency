@@ -1,5 +1,9 @@
 Revision history for Data-MoneyCurrency
 
+0.19    Tue Sep  7 23:13:29 CEST 2021
+        El Salvador uses BTC
+        no longer use File::ShareDir
+
 0.18    Fri Mar 26 17:10:36 CET 2021
         Panama (PA) uses USD
 
