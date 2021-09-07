@@ -9,12 +9,14 @@ require Exporter;
 our @ISA       = qw(Exporter);
 our @EXPORT_OK = qw(get_currency get_currencies_for_country);
 
-use Cpanel::JSON::XS;
-use Types::Serialiser;
 use Carp;
+use Cpanel::JSON::XS;
 use Data::Dumper;
 $Data::Dumper::Sortkeys = 1;
+use File::Basename;
+use Types::Serialiser;
 
+my $confdir = dirname(__FILE__) . '/../../ruby-money/config/';
 my $rh_currency_for_country = {};
 
 =encoding utf8
@@ -65,13 +67,18 @@ my $rh_currency_iso; # contains character strings
 
 sub get_currency {
     croak "get_currency received no arguments" if @_ == 0;
+
     my %args = @_;
 
-    croak "get_currency cannot accept both currency and country" if $args{currency} && $args{country};
+    croak "get_currency cannot accept both currency and country"
+        if $args{currency} && $args{country};
 
     my $currency_abbreviation = lc(delete($args{currency}) || "");
     my $country               = lc(delete($args{country})  || "");
-    croak "get_currency only accepts currency or country as args" if keys(%args) > 0;
+
+    croak "get_currency only accepts currency OR country as args"
+        if keys(%args) > 0;
+
     if (!$currency_abbreviation) {
         if ($country) {
             my $ra_currencies = get_currencies_for_country($country);
@@ -87,11 +94,24 @@ sub get_currency {
     }
 
     if (!defined($rh_currency_iso)) {
-        my $path = '../../ruby-money/config/currency_iso.json';
-        open my $fh, "<:raw", $path or die $!;
+        # need to read the conf files
+
+        # first the iso file
+        my $iso_path = $confdir . '/currency_iso.json';
+        open my $fh, "<:raw", $iso_path or die $!;
         my $octet_contents = join "", readline($fh);
         close $fh or die $!;
         $rh_currency_iso = decode_json($octet_contents);
+
+        # now the non_iso
+        my $non_iso_path = $confdir . '/currency_non_iso.json';
+        open $fh, "<:raw", $non_iso_path or die $!;
+        $octet_contents = join "", readline($fh);
+        close $fh or die $!;
+        my $rh_non_iso = decode_json($octet_contents);
+        foreach my $nic (keys %$rh_non_iso){
+            $rh_currency_iso->{$nic} = $rh_non_iso->{$nic};
+        }
     }
 
     if (!$rh_currency_iso->{$currency_abbreviation}) {
@@ -376,20 +396,19 @@ reference to an array of strings that are currency codes.
 =cut
 
 sub get_currencies_for_country {
-    croak "get_currencies_for_country received no arguments"           if @_ == 0;
-    croak "get_currencies_for_country received more than one argument" if @_ > 1;
+    croak "get_currencies_for_country received no arguments" if (scalar(@_) == 0);
+    croak "get_currencies_for_country received more than one argument" if (scalar(@_) > 1);
+
     my $country = lc($_[0]);
 
     # Return shallow copy to avoid mutating $rh_currencies_for_country
-    my $rv = $rh_currencies_for_country->{$country};
-    if ($rv) {
+    if (my $rv = $rh_currencies_for_country->{$country}){
         return [@$rv];
     }
     return;
 }
 
 =head1 BUGS
-
 
 Please report any bugs or feature requests through the web interface at
 L<https://github.com/OpenCageData/perl5-Data-MoneyCurrency>.
