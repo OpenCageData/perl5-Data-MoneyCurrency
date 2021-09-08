@@ -13,10 +13,10 @@ use Carp;
 use Cpanel::JSON::XS;
 use Data::Dumper;
 $Data::Dumper::Sortkeys = 1;
-use File::Basename;
+use File::ShareDir qw(dist_dir);
 use Types::Serialiser;
 
-my $confdir = dirname(__FILE__) . '/../../ruby-money/config/';
+my $confdir = dist_dir('Data-MoneyCurrency');
 my $rh_currency_for_country = {};
 
 =encoding utf8

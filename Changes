@@ -1,5 +1,8 @@
 Revision history for Data-MoneyCurrency
 
+0.22    Wed Sep  8 09:44:59 CEST 2021
+        - back to File::ShareDir other way wasnt working
+        
 0.21    Wed Sep  8 09:24:59 CEST 2021
         - remove Code::TidyAll and Perl::Tidy
 
