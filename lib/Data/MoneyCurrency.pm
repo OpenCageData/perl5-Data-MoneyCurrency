@@ -378,11 +378,13 @@ my $rh_currencies_for_country = {
     vu   => ['vuv'],
     wf   => ['xpf'],
     ws   => ['wst'],
+    xc   => ['eur'],    
     xk   => ['eur'],
     ye   => ['yer'],
     yt   => ['eur'],
     za   => ['zar'],
     zm   => ['zmk']
+    zw   => ['zig']        
 };
 
 =head2 get_currencies_for_country
