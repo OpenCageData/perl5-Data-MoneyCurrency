@@ -383,7 +383,7 @@ my $rh_currencies_for_country = {
     ye   => ['yer'],
     yt   => ['eur'],
     za   => ['zar'],
-    zm   => ['zmk']
+    zm   => ['zmk'],
     zw   => ['zig']        
 };
 
