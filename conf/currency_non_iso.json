@@ -143,9 +143,9 @@
     "iso_numeric": "",
     "smallest_denomination": 1
   },
-  "zig": {
+  "zwg": {
     "priority": 100,
-    "iso_code": "ZIG",
+    "iso_code": "ZWG",
     "name": "Zimbabwe Gold",
     "symbol": "ZiG",
     "disambiguate_symbol": "ZIG",

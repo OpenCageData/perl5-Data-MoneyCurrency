@@ -384,7 +384,7 @@ my $rh_currencies_for_country = {
     yt   => ['eur'],
     za   => ['zar'],
     zm   => ['zmk'],
-    zw   => ['zig']        
+    zw   => ['zwg'],
 };
 
 =head2 get_currencies_for_country
