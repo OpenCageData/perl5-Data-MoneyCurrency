@@ -11,8 +11,6 @@ our @EXPORT_OK = qw(get_currency get_currencies_for_country);
 
 use Carp;
 use Cpanel::JSON::XS;
-use Data::Dumper;
-$Data::Dumper::Sortkeys = 1;
 use File::ShareDir qw(dist_dir);
 use Types::Serialiser;
 
@@ -172,6 +170,18 @@ sub get_currency {
         foreach my $nic (keys %$rh_non_iso){
             $rh_currency_iso->{$nic} = $rh_non_iso->{$nic};
         }
+
+        # Pre-process JSON booleans into Perl 1/0 once at load time
+        for my $currency (values %$rh_currency_iso) {
+            for my $key (keys %$currency) {
+                my $value = $currency->{$key};
+                if (   Cpanel::JSON::XS::is_bool($value)
+                    or Types::Serialiser::is_bool($value))
+                {
+                    $currency->{$key} = $value ? 1 : 0;
+                }
+            }
+        }
     }
 
     if (!$rh_currency_iso->{$currency_abbreviation}) {
@@ -180,17 +190,7 @@ sub get_currency {
 
     # Shallow copy everytime deliberately, so that the caller can mutate the
     # return value if wished, without affecting rh_currency_iso
-    my $rv = {};
-    for my $key (keys %{$rh_currency_iso->{$currency_abbreviation}}) {
-        my $value = $rh_currency_iso->{$currency_abbreviation}{$key};
-        if (   Cpanel::JSON::XS::is_bool($value)
-            or Types::Serialiser::is_bool($value))
-        {
-            $value = $value ? 1 : 0;
-        }
-        $rv->{$key} = $value;
-    }
-    return $rv;
+    return { %{$rh_currency_iso->{$currency_abbreviation}} };
 }
 
 my $rh_currencies_for_country = {
@@ -464,8 +464,8 @@ Croaks if called with no arguments or more than one argument.
 =cut
 
 sub get_currencies_for_country {
-    croak "get_currencies_for_country received no arguments" if (scalar(@_) == 0);
-    croak "get_currencies_for_country received more than one argument" if (scalar(@_) > 1);
+    croak "get_currencies_for_country received no arguments" if @_ == 0;
+    croak "get_currencies_for_country received more than one argument" if @_ > 1;
 
     my $country = lc($_[0]);
 
